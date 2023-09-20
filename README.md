@@ -1,1 +1,1 @@
-# todo-app
+A simple React to-do app.
