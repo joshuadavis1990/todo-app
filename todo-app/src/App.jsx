@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import * as React from "react"
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function Todo() {
+  const [todo, setTodo] = React.useState({
+    id: 1,
+    label: "Learn React",
+    completed: false,
+  })
+  const [completed, setCompleted] = React.useState(false)
+  const [editing, setEditing] = React.useState(false)
+
+  const handleCheckboxClick = () => setTodo({
+    ... todo,
+    completed: !todo.completed
+  })
+
+  const handleEditClick = () => setEditing(!editing)
+
+  const handleUpdateLabel = (e) => setTodo({
+    ... todo,
+    label: e.target.value
+  })
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div>
+      <label htmlFor="checkbox">
+        <div>
+          <input
+            type="checkbox"
+            id="checkbox"
+            checked={todo.completed}
+            onChange={handleCheckboxClick}
+          />
+          <span />
+          {editing === true ? (
+          <input
+            type="text"
+            value={todo.label}
+            onChange={handleUpdateLabel}
+          />
+        ) : (
+          <span>{todo.label}</span>
+        )}
+        <button onClick={handleEditClick}>
+          {editing ? "Save" : "Edit"}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+          </div>
+      </label>
+    </div>
   )
 }
-
-export default App
